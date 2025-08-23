@@ -1,0 +1,10 @@
+sentence-transformers
+faiss-cpu
+pandas
+numpy
+pillow
+pymupdf
+pdf2image
+pytesseract
+Flask
+Flask-Cors

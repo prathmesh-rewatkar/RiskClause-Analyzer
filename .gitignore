@@ -1,0 +1,3 @@
+backend/.venv/
+backend/models/trained_legal_model/
+backend/uploads/
