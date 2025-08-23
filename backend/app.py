@@ -138,7 +138,10 @@ def analyze():
 
             best_results["document_risk_score"] = avg_similarity
             best_results["document_risk_level"] = doc_risk_level
-            
+            save_path = os.path.join("uploads", "risky_clause_matches.csv")
+            best_results.to_csv(save_path, index=False)
+            print(f"Results saved to {save_path}")
+
             summary = {
                 "low_risk": low,
                 "medium_risk": medium,
@@ -159,6 +162,20 @@ def analyze():
         return jsonify(summary)
     except Exception as e:
         print("Exception occurred:", str(e))
+        return jsonify({"error": str(e)}), 500
+
+@app.route('/download', methods=['GET'])
+def download_csv():
+    try:
+        save_path = os.path.join("uploads", "risky_clause_matches.csv")
+        if os.path.exists(save_path):
+            print(f"Serving CSV {save_path}")
+            return send_file(save_path, as_attachment=True)
+        else:
+            print("CSV not found.")
+            return jsonify({"error": "No results file found."}), 404
+    except Exception as e:
+        print("Exception in download endpoint:", str(e))
         return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
